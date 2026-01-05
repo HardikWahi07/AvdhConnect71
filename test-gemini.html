@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Gemini API Test</title>
+</head>
+
+<body>
+    <h1>Gemini API Test</h1>
+    <button onclick="testAPI()">Test API</button>
+    <div id="result"></div>
+
+    <script>
+        async function testAPI() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Testing...';
+
+            const API_KEY = 'AIzaSyCTaWfaQHZIsHE73_oitO_U7MXnCgnLwyE';
+
+            // Try different model names
+            const modelsToTest = [
+                'gemini-3-flash',
+                'gemini-2.5-flash-lite',
+                'gemini-2.0-flash-lite',
+                'gemini-1.5-flash',
+                'gemini-1.5-flash-8b'
+            ];
+
+            for (const version of ['v1beta', 'v1']) {
+                for (const model of modelsToTest) {
+                    try {
+                        resultDiv.innerHTML += `<br><br>Testing ${version}/${model}...`;
+
+                        const url = `https://generativelanguage.googleapis.com/${version}/models/${model}:generateContent?key=${API_KEY}`;
+
+                        const response = await fetch(url, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                contents: [{ parts: [{ text: 'Say hello' }] }]
+                            })
+                        });
+
+                        const data = await response.json().catch(() => ({}));
+                        if (response.ok) {
+                            resultDiv.innerHTML += `<br>✅ ${version}/${model} WORKS!`;
+                            console.log(`Working: ${version}/${model}`, data);
+                        } else {
+                            resultDiv.innerHTML += `<br>❌ ${version}/${model} failed: ${response.status} - ${data.error?.message || response.statusText}`;
+                        }
+                    } catch (error) {
+                        resultDiv.innerHTML += `<br>❌ ${version}/${model} error: ${error.message}`;
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

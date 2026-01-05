@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice - Avadh BizHub</title>
+    <link rel="icon" type="image/jpeg" href="images/logo.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/loader.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --text-main: #1f2937;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            line-height: 1.5;
+            margin: 0;
+            padding: 40px;
+            background: #fff;
+        }
+
+        .invoice-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .invoice-badge {
+            background: var(--primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .bill-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+        }
+
+        .info-group h3 {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--text-light);
+            margin: 0 0 8px 0;
+            letter-spacing: 0.5px;
+        }
+
+        .info-group p {
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .table-container {
+            margin-bottom: 40px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 2px solid var(--border);
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--text-light);
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 16px 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .total-section {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .total-box {
+            width: 250px;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+        }
+
+        .total-row.final {
+            border-top: 2px solid var(--border);
+            margin-top: 8px;
+            padding-top: 16px;
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--primary);
+        }
+
+        .footer {
+            margin-top: 60px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-light);
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+        }
+
+        @media print {
+            body {
+                padding: 0;
+                background: white;
+            }
+
+            .no-print {
+                display: none;
+            }
+        }
+
+        .btn-print {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s;
+        }
+
+        .btn-print:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <!-- Loading Screen (Minimalist) -->
+    <div id="appLoader" class="app-loader">
+        <div class="loader-content">
+            <div class="loader-logo-pulse">🏢</div>
+            <div class="loader-brand">BizHub</div>
+            <div class="loader-dots">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </div>
+    <button class="btn-print no-print" onclick="window.print()">
+        🖨️ Print Invoice
+    </button>
+
+    <div class="invoice-container">
+        <!-- Header -->
+        <div class="header">
+            <div>
+                <div class="logo">🏢 Avadh BizHub</div>
+                <p style="margin: 8px 0 0 0; color: var(--text-light); font-size: 14px;">Marketplace Invoice</p>
+            </div>
+            <div style="text-align: right;">
+                <span class="invoice-badge">Invoice</span>
+                <p style="margin: 8px 0 0 0; font-weight: 600;">#<span id="invoiceId">...</span></p>
+                <p style="margin: 4px 0 0 0; color: var(--text-light); font-size: 14px;" id="invoiceDate">...</p>
+            </div>
+        </div>
+
+        <!-- Billing Info -->
+        <div class="bill-info">
+            <div class="info-group">
+                <h3>Sold By</h3>
+                <p id="sellerName" style="font-size: 18px;">Loading...</p>
+                <p id="sellerEmail" style="color: var(--text-light); font-size: 14px; margin-top: 4px;">...</p>
+            </div>
+            <div class="info-group" style="text-align: right;">
+                <h3>Bill To</h3>
+                <p id="buyerName" style="font-size: 18px;">Loading...</p>
+                <p id="buyerPhone" style="color: var(--text-light); font-size: 14px; margin-top: 4px;">...</p>
+                <p id="buyerAddress"
+                    style="color: var(--text-light); font-size: 14px; margin-top: 4px; max-width: 200px; margin-left: auto;">
+                    ...</p>
+            </div>
+        </div>
+
+        <!-- Items Table -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item Description</th>
+                        <th class="text-right">Qty</th>
+                        <th class="text-right">Price</th>
+                        <th class="text-right">Total</th>
+                    </tr>
+                </thead>
+                <tbody id="itemsTableBody">
+                    <!-- Items injected here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Totals -->
+        <div class="total-section">
+            <div class="total-box">
+                <div class="total-row">
+                    <span>Subtotal</span>
+                    <span id="subTotal">...</span>
+                </div>
+                <div class="total-row">
+                    <span>Tax (0%)</span>
+                    <span>₹0.00</span>
+                </div>
+                <div class="total-row final">
+                    <span>Total Paid</span>
+                    <span id="grandTotal">...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Thank you for your business!</p>
+            <p>This is a computer-generated invoice and does not require a signature.</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/loader.js"></script>
+    <script src="js/supabase-config.js"></script>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('id');
+
+        if (!orderId) {
+            alert('Invalid Order ID');
+            window.close();
+        }
+
+        async function loadInvoice() {
+            try {
+                // Fetch order details with relations
+                const { data: order, error } = await supabase
+                    .from('orders')
+                    .select(`
+                        *,
+                        order_items (
+                            quantity,
+                            price_at_time,
+                            product_name
+                        ),
+                        businesses (
+                            name,
+                            owner_id
+                        )
+                    `)
+                    .eq('id', orderId)
+                    .single();
+
+                if (error) throw error;
+
+                // Populate UI
+                document.title = `Invoice #${order.id.substring(0, 8)}`;
+                document.getElementById('invoiceId').textContent = order.id.substring(0, 8).toUpperCase();
+                document.getElementById('invoiceDate').textContent = new Date(order.created_at).toLocaleDateString('en-IN', {
+                    year: 'numeric', month: 'long', day: 'numeric'
+                });
+
+                // Seller (Business) Info
+                document.getElementById('sellerName').textContent = order.businesses?.name || 'Business Name';
+                // For privacy, we might not have email directly here unless we fetch from auth/profile, 
+                // but let's keep it simple for now or fetch if needed.
+
+                // Buyer Info
+                document.getElementById('buyerName').textContent = order.customer_name;
+                document.getElementById('buyerPhone').textContent = order.customer_phone;
+                document.getElementById('buyerAddress').textContent = order.delivery_address;
+
+                // Items
+                const tbody = document.getElementById('itemsTableBody');
+                tbody.innerHTML = order.order_items.map(item => `
+                    <tr>
+                        <td>
+                            <strong>${item.product_name || 'Product'}</strong>
+                        </td>
+                        <td class="text-right">${item.quantity}</td>
+                        <td class="text-right">₹${item.price_at_time.toFixed(2)}</td>
+                        <td class="text-right">₹${(item.quantity * item.price_at_time).toFixed(2)}</td>
+                    </tr>
+                `).join('');
+
+                // Totals
+                document.getElementById('subTotal').textContent = `₹${order.total_amount}`;
+                document.getElementById('grandTotal').textContent = `₹${order.total_amount}`;
+
+                // Trigger print automatically after a short delay
+                setTimeout(() => {
+                    // window.print(); // Optional: Auto print
+                }, 1000);
+
+            } catch (err) {
+                console.error('Error loading invoice:', err);
+                document.body.innerHTML = '<h2 style="color: red; text-align: center;">Error generating invoice</h2>';
+            }
+        }
+
+        loadInvoice();
+    </script>
+</body>
+
+</html>

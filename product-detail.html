@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - Avadh BizHub</title>
+    <link rel="icon" type="image/jpeg" href="images/logo.jpg">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/reviews.css">
+    <link rel="stylesheet" href="css/loader.css">
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Critical Theme Sync
+        (function () {
+            try {
+                const savedTheme = localStorage.getItem('theme') || 'light';
+                document.documentElement.setAttribute('data-theme', savedTheme);
+                if (savedTheme === 'dark') document.documentElement.classList.add('dark');
+            } catch (e) { }
+        })();
+
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            300: '#a5b4fc',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                            900: '#312e81',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        [data-theme="dark"] .glass-panel {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Hide number input arrows */
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body class="antialiased min-h-screen flex flex-col transition-colors duration-300">
+    <!-- Loading Screen -->
+    <!-- Loading Screen (Minimalist) -->
+    <div id="appLoader" class="app-loader">
+        <div class="loader-content">
+            <div class="loader-logo-pulse">🏢</div>
+            <div class="loader-brand">BizHub</div>
+            <div class="loader-dots">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav
+        class="navbar sticky top-0 z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-gray-200 dark:border-white/5">
+        <div class="container navbar-container">
+            <a href="index.html" class="navbar-logo font-bold text-xl text-gray-900 dark:text-white">🏢 Avadh BizHub</a>
+            <button class="navbar-toggle" id="navToggle">☰</button>
+            <ul class="navbar-menu" id="navMenu">
+                <li><a href="index.html" class="navbar-link">Home</a></li>
+                <li><a href="browse.html" class="navbar-link">Browse</a></li>
+                <li><a href="search.html" class="navbar-link">Search</a></li>
+                <li>
+                    <div class="theme-switcher">
+                        <button class="theme-btn" id="themeBtn"><span id="themeIcon">🌙</span></button>
+                        <div class="theme-dropdown" id="themeDropdown">
+                            <button class="theme-option" data-theme="light">☀️ Light</button>
+                            <button class="theme-option" data-theme="dark">🌙 Dark</button>
+                            <button class="theme-option active" data-theme="system">💻 System</button>
+                        </div>
+                    </div>
+                </li>
+                <li id="authLinks"><a href="login.html" class="btn btn-primary btn-sm">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-1 w-full max-w-7xl mx-auto px-4 py-8 md:py-16">
+
+        <!-- Loading State -->
+        <div id="loading" class="flex flex-col items-center justify-center min-h-[50vh]">
+            <div class="w-12 h-12 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin"></div>
+        </div>
+
+        <!-- Product Content -->
+        <div id="productContent" class="hidden grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-20 items-start">
+
+            <!-- Left: Gallery -->
+            <div class="space-y-6">
+                <div
+                    class="relative w-full aspect-square md:aspect-[4/3] rounded-3xl overflow-hidden bg-gray-50 dark:bg-slate-800/50 border border-gray-200 dark:border-white/5 shadow-sm group">
+                    <img id="mainImage" src="" alt="Product"
+                        class="w-full h-full object-contain p-4 transition-transform duration-500 hover:scale-105">
+
+                    <!-- Nav Arrows -->
+                    <div id="galleryNav"
+                        class="absolute inset-0 flex items-center justify-between p-4 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                        <button onclick="changeImage(-1)"
+                            class="w-10 h-10 rounded-full bg-black/50 text-white backdrop-blur flex items-center justify-center hover:bg-black/70 pointer-events-auto transition-all hover:scale-110">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <button onclick="changeImage(1)"
+                            class="w-10 h-10 rounded-full bg-black/50 text-white backdrop-blur flex items-center justify-center hover:bg-black/70 pointer-events-auto transition-all hover:scale-110">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Thumbnails -->
+                <div id="thumbnails" class="flex gap-3 overflow-x-auto pb-4 scrollbar-hide snap-x">
+                    <!-- JS Injected -->
+                </div>
+            </div>
+
+            <!-- Right: Details -->
+            <div class="flex flex-col h-full">
+                <!-- Breadcrumb -->
+                <nav class="flex items-center gap-2 text-sm font-medium text-gray-500 mb-6">
+                    <a href="browse.html" class="hover:text-primary-600 transition-colors">Browse</a>
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                    <a id="businessLink" href="#" class="text-primary-600 hover:text-primary-700">Business</a>
+                </nav>
+
+                <h1 id="productTitle"
+                    class="text-3xl md:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-4 leading-tight">
+                    Product Name
+                </h1>
+
+                <div class="flex items-center gap-4 mb-8">
+                    <div id="priceTag" class="text-4xl font-bold text-primary-600 dark:text-primary-400">₹0.00</div>
+                    <div
+                        class="flex items-center gap-1.5 px-3 py-1 bg-yellow-400/10 rounded-full border border-yellow-400/20">
+                        <span class="text-yellow-500">★</span>
+                        <span class="font-bold text-yellow-600 dark:text-yellow-400 text-sm" id="avgRating">4.5</span>
+                    </div>
+                </div>
+
+                <div class="prose dark:prose-invert max-w-none text-gray-600 dark:text-gray-300 text-lg leading-relaxed mb-8"
+                    id="productDesc">
+                    Description...
+                </div>
+
+                <div class="mt-auto"></div>
+
+                <!-- Action Card -->
+                <div
+                    class="glass-panel p-6 rounded-2xl shadow-xl border border-gray-100 dark:border-white/10 sticky bottom-4 z-20">
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <div
+                            class="flex items-center bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-white/10 shrink-0 h-14">
+                            <button onclick="updateQty(-1)"
+                                class="w-12 h-full flex items-center justify-center text-xl text-gray-500 hover:bg-gray-100 dark:hover:bg-white/5 rounded-l-xl transition-colors">−</button>
+                            <input type="number" id="qtyInput" value="1" min="1"
+                                class="w-14 bg-transparent text-center font-bold text-xl outline-none text-gray-900 dark:text-white"
+                                readonly>
+                            <button onclick="updateQty(1)"
+                                class="w-12 h-full flex items-center justify-center text-xl text-gray-500 hover:bg-gray-100 dark:hover:bg-white/5 rounded-r-xl transition-colors">+</button>
+                        </div>
+
+                        <button onclick="addToCartFromDetail()"
+                            class="flex-1 btn btn-primary h-14 text-lg font-bold shadow-lg shadow-primary-500/20 hover:shadow-primary-500/40 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 rounded-xl">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                            </svg>
+                            Add to Cart
+                        </button>
+                    </div>
+                    <div
+                        class="mt-4 flex items-center justify-center gap-4 text-xs font-medium text-gray-500 dark:text-gray-400">
+                        <div class="flex items-center gap-1.5">
+                            <span
+                                class="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 p-1 rounded-full">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2-2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                                </svg>
+                            </span>
+                            Cash on Delivery
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reviews -->
+            <div class="col-span-1 md:col-span-2 mt-12 border-t border-gray-200 dark:border-white/10 pt-12">
+                <div class="flex items-center justify-between mb-8">
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">Customer Reviews</h2>
+                    <button onclick="openReviewModal(currentProductId)" class="btn btn-outline flex items-center gap-2">
+                        <span>✍️</span> Write Review
+                    </button>
+                </div>
+                <div id="reviewsList" class="space-y-6"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/loader.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/reviews.js"></script>
+    <script src="js/ordering.js"></script>
+    <script src="js/cart-manager.js"></script>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        let productId = urlParams.get('id');
+        let currentProductId = productId;
+        let productImages = [];
+        let currentImageIdx = 0;
+
+        async function initPage() {
+            if (!productId) return window.location.href = 'browse.html';
+
+            try {
+                const { data: product, error } = await supabase
+                    .from('products')
+                    .select(`*, businesses(id, name)`)
+                    .eq('id', productId)
+                    .single();
+
+                if (error || !product) throw new Error("Not found");
+
+                window.currentProduct = product;
+                document.title = `${product.name} | Avadh BizHub`;
+
+                // Bind Data
+                document.getElementById('businessLink').textContent = product.businesses.name;
+                document.getElementById('businessLink').href = `business-detail.html?id=${product.businesses.id}`;
+                document.getElementById('productTitle').textContent = product.name;
+
+                const priceEl = document.getElementById('priceTag');
+                if (product.price) {
+                    priceEl.textContent = `₹${product.price}`;
+                } else {
+                    priceEl.textContent = "Price on Ask";
+                    priceEl.classList.add('text-2xl');
+                }
+
+                document.getElementById('avgRating').textContent = product.average_rating ? product.average_rating.toFixed(1) : '–';
+
+                if (product.description) {
+                    document.getElementById('productDesc').innerHTML = product.description.replace(/\n/g, '<br>');
+                }
+
+                // Images
+                productImages = (product.images && product.images.length) ? product.images : ['https://placehold.co/600x600?text=No+Image'];
+                renderGallery();
+
+                // Show
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('productContent').classList.remove('hidden');
+
+                if (window.loadReviews) loadReviews(productId, 'reviewsList');
+
+            } catch (err) {
+                console.error(err);
+                document.getElementById('loading').innerHTML = `<p class="text-red-500 font-bold">Product not found</p>`;
+            }
+        }
+
+        function renderGallery() {
+            const mainImg = document.getElementById('mainImage');
+            mainImg.src = productImages[currentImageIdx];
+
+            const nav = document.getElementById('galleryNav');
+            nav.classList.toggle('hidden', productImages.length <= 1);
+
+            const thumbs = document.getElementById('thumbnails');
+            if (productImages.length > 1) {
+                thumbs.innerHTML = productImages.map((img, i) => `
+                    <button onclick="setImage(${i})" class="w-20 h-20 rounded-xl overflow-hidden border-2 transition-all shrink-0 ${i === currentImageIdx ? 'border-primary-500 ring-2 ring-primary-500/20' : 'border-transparent opacity-70 hover:opacity-100'}">
+                        <img src="${img}" class="w-full h-full object-cover">
+                    </button>
+                `).join('');
+            } else {
+                thumbs.innerHTML = '';
+            }
+        }
+
+        function changeImage(dir) {
+            currentImageIdx = (currentImageIdx + dir + productImages.length) % productImages.length;
+            renderGallery();
+        }
+        window.setImage = (i) => {
+            currentImageIdx = i;
+            renderGallery();
+        }
+
+        window.updateQty = (d) => {
+            const el = document.getElementById('qtyInput');
+            el.value = Math.max(1, parseInt(el.value) + d);
+        }
+
+        window.addToCartFromDetail = () => {
+            const qty = parseInt(document.getElementById('qtyInput').value);
+            if (!window.currentProduct || !window.cartManager) return;
+
+            for (let i = 0; i < qty; i++) {
+                window.cartManager.addItem({
+                    id: window.currentProduct.id,
+                    name: window.currentProduct.name,
+                    price: window.currentProduct.price || 0
+                }, window.currentProduct.businesses.id, window.currentProduct.businesses.name);
+            }
+
+            const btn = document.querySelector('button[onclick="addToCartFromDetail()"]');
+            const oldHtml = btn.innerHTML;
+            btn.innerHTML = `<span>✓ Added</span>`;
+            btn.classList.add('bg-green-600', 'border-green-600');
+            setTimeout(() => {
+                btn.innerHTML = oldHtml;
+                btn.classList.remove('bg-green-600', 'border-green-600');
+                document.getElementById('qtyInput').value = 1;
+            }, 2000);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const t = setInterval(() => {
+                if (typeof supabase !== 'undefined') { clearInterval(t); initPage(); }
+            }, 50);
+        });
+    </script>
+</body>
+
+</html>

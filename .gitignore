@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Database migration files (keep in separate migrations folder)
+# *.sql
+
+# Backup files
+*-backup.html
+*-backup.js
+*-backup.css
+*.bak
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+
+# Testing
+.nyc_output/
+coverage/
+
+# Misc
+.cache/
+dist/
+build/

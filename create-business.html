@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Business - Avadh BizHub</title>
+    <link rel="icon" type="image/jpeg" href="images/logo.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/loader.css">
+    <style>
+        .preview-container {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .preview-item {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .remove-preview {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .remove-preview:hover {
+            background: rgba(239, 68, 68, 0.9);
+        }
+
+        .form-section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-md);
+            padding-bottom: var(--space-sm);
+            border-bottom: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div id="appLoader" class="app-loader">
+        <div class="loader-content">
+            <div class="loader-logo-pulse">🏢</div>
+            <div class="loader-brand">BizHub</div>
+            <div class="loader-dots">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <a href="index.html" class="navbar-logo">🏢 Avadh BizHub</a>
+
+            <button class="navbar-toggle" id="navToggle">
+                ☰
+            </button>
+
+            <ul class="navbar-menu" id="navMenu">
+                <li><a href="index.html" class="navbar-link">Home</a></li>
+                <li><a href="browse.html" class="navbar-link">Browse</a></li>
+                <li><a href="search.html" class="navbar-link">Search</a></li>
+                <li><a href="dashboard.html" class="navbar-link active">Dashboard</a></li>
+                <li>
+                    <div class="theme-switcher">
+                        <button class="theme-btn" id="themeBtn">
+                            <span id="themeIcon">🌙</span>
+                        </button>
+                        <div class="theme-dropdown" id="themeDropdown">
+                            <button class="theme-option" data-theme="light">
+                                <span>💻</span> Light
+                            </button>
+                            <button class="theme-option" data-theme="dark">
+                                <span>🌙</span> Dark
+                            </button>
+                            <button class="theme-option active" data-theme="system">
+                                <span>☀️</span> System
+                            </button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container" style="padding-top: 6rem; padding-bottom: 4rem;">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <div class="flex items-center gap-md mb-xl">
+                <a href="dashboard.html" class="btn btn-outline btn-sm">← Back</a>
+                <h1>Register Your Business</h1>
+            </div>
+
+            <div class="card">
+                <form id="createBusinessForm">
+                    <!-- Basic Info -->
+                    <div class="mb-xl">
+                        <h2 class="form-section-title">Basic Information</h2>
+
+                        <div class="form-group">
+                            <label class="form-label" for="businessName">Business Name *</label>
+                            <input type="text" id="businessName" class="form-input" placeholder="e.g. Acme Café"
+                                required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="category">Category *</label>
+                            <select id="category" class="form-input" required>
+                                <option value="">Select a category...</option>
+                                <!-- Populated by JS -->
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="description">Description *</label>
+                            <textarea id="description" class="form-input" rows="4"
+                                placeholder="Describe your business, services, and what makes you unique..."
+                                required></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Contact & Location -->
+                    <div class="mb-xl">
+                        <h2 class="form-section-title">Contact & Location</h2>
+
+                        <div class="grid grid-2" style="gap: var(--space-md);">
+                            <div class="form-group">
+                                <label class="form-label" for="phone">Phone Number *</label>
+                                <input type="tel" id="phone" class="form-input" placeholder="+91 98765 43210" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="email">Business Email</label>
+                                <input type="email" id="email" class="form-input" placeholder="contact@business.com">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="address">Full Address *</label>
+                            <input type="text" id="address" class="form-input" placeholder="Shop No, Street, Area, City"
+                                required>
+                        </div>
+
+                        <div class="grid grid-2" style="gap: var(--space-md);">
+                            <div class="form-group">
+                                <label class="form-label" for="website">Website (Optional)</label>
+                                <input type="url" id="website" class="form-input" placeholder="https://example.com">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="openingHours">Opening Hours</label>
+                                <input type="text" id="openingHours" class="form-input"
+                                    placeholder="e.g. Mon-Sat: 9AM - 8PM">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Media -->
+                    <div class="mb-xl">
+                        <h2 class="form-section-title">Media & Branding</h2>
+
+                        <div class="form-group">
+                            <label class="form-label" for="images">Business Images (Max 5)</label>
+                            <div
+                                style="border: 2px dashed var(--border-color); padding: 2rem; text-align: center; border-radius: var(--radius-md); background: var(--bg-secondary);">
+                                <p class="mb-sm" style="color: var(--text-secondary);">Drag & drop or click to upload
+                                </p>
+                                <input type="file" id="images" class="form-input" accept="image/*" multiple
+                                    style="display: none;">
+                                <button type="button" class="btn btn-outline btn-sm"
+                                    onclick="document.getElementById('images').click()">Select Images</button>
+                                <p class="mt-sm" style="font-size: 0.8rem; color: var(--text-tertiary);">Supported: JPG,
+                                    PNG, WEBP (Max 5MB each)</p>
+                            </div>
+                            <div id="imagePreview" class="preview-container hidden"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="brochure">Brochure / Menu (Optional)</label>
+                            <input type="file" id="brochure" class="form-input" accept=".pdf">
+                            <p class="mt-xs" style="font-size: 0.8rem; color: var(--text-tertiary);">Upload PDF brochure
+                                or menu</p>
+                        </div>
+                    </div>
+
+                    <!-- Submit -->
+                    <div id="errorMessage" class="form-error mb-md hidden"></div>
+
+                    <button type="submit" id="submitBtn" class="btn btn-primary btn-lg" style="width: 100%;">
+                        Create Business Listing
+                    </button>
+                    <p class="mt-md text-center" style="font-size: 0.875rem; color: var(--text-secondary);">
+                        <span style="color: var(--primary-500);">✨ AI Powered:</span> Your listing will be automatically
+                        reviewed by our AI system.
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/loader.js"></script>
+    <script src="js/ai-service.js"></script>
+    <script src="js/business-create.js"></script>
+</body>
+
+</html>

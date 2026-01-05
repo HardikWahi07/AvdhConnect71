@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="BizHub - Premium Society Business Directory">
+  <title>Avadh BizHub - Local Business Directory</title>
+  <link rel="icon" type="image/jpeg" href="images/logo.jpg">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/ai-chatbot.css">
+  <link rel="stylesheet" href="css/loader.css">
+</head>
+
+<body>
+  <!-- Loading Screen -->
+  <!-- Loading Screen (Minimalist) -->
+  <div id="appLoader" class="app-loader">
+    <!-- Floating Triangles Background -->
+    <!-- Floating Triangles Background (Dynamic generation via JS) -->
+    <div class="loader-content">
+      <div class="loader-logo-pulse"><img src="images/logo.jpg" class="logo-img" style="width: 80px; height: 80px;">
+      </div>
+      <div class="loader-brand">BizHub</div>
+      <div class="loader-dots">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container navbar-container">
+      <a href="index.html" class="navbar-logo"><img src="images/logo.jpg" alt="Logo" class="logo-img"> Avadh BizHub</a>
+
+      <button class="navbar-toggle" id="navToggle">☰</button>
+
+      <ul class="navbar-menu" id="navMenu">
+        <li><a href="index.html" class="navbar-link active">Home</a></li>
+        <li><a href="browse.html" class="navbar-link">Browse</a></li>
+        <li><a href="search.html" class="navbar-link">Search</a></li>
+        <li>
+          <div class="theme-switcher">
+            <button class="theme-btn" id="themeBtn">
+              <span id="themeIcon">🌙</span>
+            </button>
+            <div class="theme-dropdown" id="themeDropdown">
+              <button class="theme-option" data-theme="light">
+                <span>💻</span> Light
+              </button>
+              <button class="theme-option" data-theme="dark">
+                <span>🌙</span> Dark
+              </button>
+              <button class="theme-option active" data-theme="system">
+                <span>☀️</span> System
+              </button>
+            </div>
+          </div>
+        </li>
+        <li id="authLinks">
+          <a href="login.html" class="btn btn-primary btn-sm">Login</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <!-- Static Background Image -->
+    <div class="hero-bg"
+      style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('images/hero_main.jpg') no-repeat center center/cover; opacity: 1; width: 100%; height: 100%; top: 0; left: 0; filter: none;">
+    </div>
+    <div class="hero-content">
+      <h1
+        style="background: none; -webkit-text-fill-color: white; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">
+        Connecting Local Services</h1>
+      <p>Discover the best services and products in your community. Avadh BizHub is your central directory for
+        everything local.</p>
+      <div class="hero-btns">
+        <a href="browse.html" class="btn btn-primary btn-lg">Browse Businesses</a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories Section -->
+  <section class="section" style="background: var(--bg-secondary);">
+    <div class="container">
+      <h2 class="text-center mb-xl">Popular Categories</h2>
+      <div class="grid grid-4" id="categoriesGrid">
+        <!-- Categories will be loaded dynamically -->
+        <div class="card text-center">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">🍕</div>
+          <h4>Food & Dining</h4>
+          <p>Restaurants, cafes, and food delivery</p>
+        </div>
+        <div class="card text-center">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">🛠️</div>
+          <h4>Home Services</h4>
+          <p>Repairs, maintenance, and utilities</p>
+        </div>
+        <div class="card text-center">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">🏥</div>
+          <h4>Healthcare</h4>
+          <p>Doctors, clinics, and pharmacies</p>
+        </div>
+        <div class="card text-center">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">🎓</div>
+          <h4>Education</h4>
+          <p>Tutors, coaching, and training</p>
+        </div>
+      </div>
+      <div class="text-center mt-xl">
+        <a href="browse.html" class="btn btn-primary">View All Categories</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Businesses -->
+  <section class="section">
+    <div class="container">
+      <h2 class="text-center mb-xl">Featured Businesses</h2>
+      <div class="grid grid-3" id="featuredGrid">
+        <!-- Businesses will be loaded dynamically -->
+        <div class="card">
+          <img
+            src="data:image/svg+xml;charset=UTF-8,%3Csvg width='400' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%230099ff'/%3E%3Ctext x='50%25' y='50%25' font-family='Arial, sans-serif' font-size='18' fill='white' text-anchor='middle' dominant-baseline='middle'%3ESample Business%3C/text%3E%3C/svg%3E"
+            alt="Business" class="card-img">
+          <h4>Sample Business</h4>
+          <p>Short description of the business and services offered...</p>
+          <a href="#" class="btn btn-outline">View Details</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="section" style="background: var(--bg-secondary);">
+    <div class="container">
+      <h2 class="text-center mb-xl">How It Works</h2>
+      <div class="grid grid-3">
+        <div class="card text-center">
+          <div
+            style="width: 60px; height: 60px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; color: white; font-size: 1.5rem; font-weight: bold;">
+            1</div>
+          <h4>Browse or Search</h4>
+          <p>Find businesses by category or use our powerful search to discover exactly what you need.</p>
+        </div>
+        <div class="card text-center">
+          <div
+            style="width: 60px; height: 60px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; color: white; font-size: 1.5rem; font-weight: bold;">
+            2</div>
+          <h4>View Details</h4>
+          <p>Explore complete business profiles with photos, products, services, and pricing information.</p>
+        </div>
+        <div class="card text-center">
+          <div
+            style="width: 60px; height: 60px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; color: white; font-size: 1.5rem; font-weight: bold;">
+            3</div>
+          <h4>Connect Directly</h4>
+          <p>Contact businesses via phone, email, or visit their website to avail services.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Statistics -->
+  <section class="section" style="background: var(--gradient-primary); color: white;">
+    <div class="container">
+      <div class="grid grid-4">
+        <div class="text-center">
+          <h2 id="stat-businesses" style="color: white; font-size: 3rem; margin-bottom: 0.5rem;">...</h2>
+          <p style="color: rgba(255,255,255,0.9); margin: 0;">Registered Businesses</p>
+        </div>
+        <div class="text-center">
+          <h2 id="stat-residents" style="color: white; font-size: 3rem; margin-bottom: 0.5rem;">...</h2>
+          <p style="color: rgba(255,255,255,0.9); margin: 0;">Happy Residents</p>
+        </div>
+        <div class="text-center">
+          <h2 id="stat-categories" style="color: white; font-size: 3rem; margin-bottom: 0.5rem;">...</h2>
+          <p style="color: rgba(255,255,255,0.9); margin: 0;">Categories</p>
+        </div>
+        <div class="text-center">
+          <h2 id="stat-available" style="color: white; font-size: 3rem; margin-bottom: 0.5rem;">24/7</h2>
+          <p style="color: rgba(255,255,255,0.9); margin: 0;">Available</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- For Business Owners -->
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-2" style="align-items: center;">
+        <div>
+          <h2>Are You a Business Owner?</h2>
+          <p class="mb-lg">Join BizHub and reach hundreds of potential customers right in your society. Showcase your
+            products, services, and special offers to your neighbors.</p>
+          <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+            <div>
+              <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">✨</div>
+              <h4 style="margin-bottom: 0.5rem;">Free Listing</h4>
+              <p style="margin: 0;">Register your business at no cost</p>
+            </div>
+            <div>
+              <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">📸</div>
+              <h4 style="margin-bottom: 0.5rem;">Rich Media</h4>
+              <p style="margin: 0;">Upload photos and showcase products</p>
+            </div>
+          </div>
+          <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+            <div>
+              <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🎯</div>
+              <h4 style="margin-bottom: 0.5rem;">Targeted Reach</h4>
+              <p style="margin: 0;">Connect with local customers</p>
+            </div>
+            <div>
+              <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">👁️</div>
+              <h4 style="margin-bottom: 0.5rem;">High Visibility</h4>
+              <p style="margin: 0;">Get seen by everyone in society</p>
+            </div>
+          </div>
+          <a href="register.html" class="btn btn-primary btn-lg">Register Your Business</a>
+        </div>
+        <div class="card" style="background: var(--gradient-primary); color: white; padding: 3rem;">
+          <h3 style="color: white; font-size: 2rem; margin-bottom: 1rem;">🚀 Grow Your Business</h3>
+          <ul style="list-style: none; padding: 0;">
+            <li style="padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.2);">✓ Unlimited product listings
+            </li>
+            <li style="padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.2);">✓ Professional business
+              profile</li>
+            <li style="padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.2);">✓ <strong>Pay to
+                Business</strong> features
+            </li>
+            <li style="padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.2);">✓ <strong>Premium
+                Visibility</strong> options
+            </li>
+            <li style="padding: 0.75rem 0;">✓ Real-time updates</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Business Success Stories -->
+  <section class="section" style="background: var(--bg-secondary);">
+    <div class="container">
+      <h2 class="text-center mb-xl">Business Success Stories</h2>
+      <div class="grid grid-3" id="successStoriesGrid">
+        <!-- Stories will be loaded dynamically -->
+        <p class="text-center" style="grid-column: 1/-1; color: var(--text-tertiary);">Loading stories...</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section" style="background: var(--bg-secondary);">
+    <div class="container text-center">
+      <h2>Ready to Discover Local Businesses?</h2>
+      <p style="max-width: 600px; margin: 0 auto 2rem;">Join hundreds of residents who are already using BizHub to find
+        trusted services and products in their society.</p>
+      <div class="flex justify-center gap-md">
+        <a href="browse.html" class="btn btn-primary btn-lg">Start Exploring</a>
+        <a href="search.html" class="btn btn-secondary btn-lg">Search Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="text-center mb-xl">Why Choose BizHub?</h2>
+      <div class="grid grid-3">
+        <div class="card text-center">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">🔍</div>
+          <h4>Easy Discovery</h4>
+          <p>Find businesses quickly through our intuitive search and browse features.</p>
+        </div>
+        <div class="card text-center">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">🏪</div>
+          <h4>Local Focus</h4>
+          <p>Connect with trusted businesses right in your community.</p>
+        </div>
+        <div class="card text-center">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">⚡</div>
+          <h4>Always Updated</h4>
+          <p>Get real-time information on products, services, and availability.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI Chatbot Button -->
+  <button id="aiChatBtn" class="ai-chat-button" aria-label="Open AI Chat">
+    <span class="ai-icon">AI</span>
+  </button>
+
+  <!-- Chat Modal -->
+  <div id="chatModal" class="ai-chat-modal">
+    <div class="ai-chat-container">
+      <div class="ai-chat-header">
+        <h3>🧞 Leads Genie</h3>
+        <button id="closeChatBtn" class="close-chat-btn">&times;</button>
+      </div>
+      <div id="chatMessages" class="ai-chat-messages"></div>
+      <div class="ai-chat-input-container">
+        <input type="text" id="chatInput" class="ai-chat-input" placeholder="Ask Leads Genie anything...">
+        <button id="sendChatBtn" class="ai-send-chat-btn">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Supabase SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Loading Screen Script (must load first) -->
+  <script src="js/loader.js"></script>
+
+  <!-- App Scripts -->
+  <script src="js/supabase-config.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/ai-service.js"></script>
+  <script src="js/gemini-chatbot.js"></script>
+</body>
+
+<script src="js/ordering.js"></script>
+<script src="js/cart-manager.js"></script>
+</body>
+
+</html>

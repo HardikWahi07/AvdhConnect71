@@ -1,0 +1,390 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages - Avadh BizHub</title>
+    <link rel="icon" type="image/jpeg" href="images/logo.jpg">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Global Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/hamburger-fix.css">
+    <link rel="stylesheet" href="css/loader.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: ['class', '[data-theme="dark"]'],
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f5f7ff',
+                            100: '#ebf0fe',
+                            200: '#ced9fd',
+                            300: '#adc0fb',
+                            400: '#8da7fa',
+                            500: '#6366f1', // Brand Indigo
+                            600: '#4f46e5',
+                            700: '#3730a3',
+                            800: '#1e1b4b',
+                            900: '#0f172a',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'slide-up': 'slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                        'fade-in': 'fadeIn 0.2s ease-out',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Libraries -->
+
+    <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
+
+    <style>
+        body {
+            background-color: #0f172a;
+            /* Fallback */
+            background-image:
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(244, 63, 94, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.1) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(245, 158, 11, 0.1) 0px, transparent 50%);
+            background-attachment: fixed;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: white;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .glass-sidebar {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        [data-theme="light"] body {
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+
+        [data-theme="light"] .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px rgba(99, 102, 241, 0.05);
+        }
+
+        [data-theme="light"] .glass-sidebar {
+            background: rgba(255, 255, 255, 0.8);
+            border-right: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .custom-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .custom-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: rgba(156, 163, 175, 0.3);
+            border-radius: 10px;
+        }
+
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: rgba(156, 163, 175, 0.5);
+        }
+
+        .msg-sent {
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            color: white;
+            border-radius: 16px 16px 0 16px;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .msg-received {
+            background: #1e293b;
+            /* Slate-800 for better visibility */
+            border: 1px solid #334155;
+            /* Slate-700 border */
+            color: #f1f5f9;
+            /* Slate-100 text for high contrast */
+            border-radius: 16px 16px 16px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="light"] .msg-received {
+            background: white;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+        }
+
+        .sidebar-item.active {
+            background: rgba(99, 102, 241, 0.15);
+            /* Brand Indigo Tint */
+            border-left: 3px solid #6366f1;
+            /* Brand Indigo */
+        }
+
+        [data-theme="light"] .sidebar-item.active {
+            background: rgba(99, 102, 241, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <!-- Loading Screen (Minimalist) -->
+    <div id="appLoader" class="app-loader">
+        <div class="loader-content">
+            <div class="loader-logo-pulse"><img src="images/logo.jpg" class="logo-img"
+                    style="width: 80px; height: 80px;"></div>
+            <div class="loader-brand">BizHub</div>
+            <div class="loader-dots">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </div>
+    <!-- Navbar -->
+    <nav class="navbar relative z-50">
+        <div class="container navbar-container">
+            <a href="index.html" class="navbar-logo"><img src="images/logo.jpg" alt="Logo" class="logo-img"> Avadh
+                BizHub</a>
+            <button class="navbar-toggle" id="navToggle">☰</button>
+            <ul class="navbar-menu" id="navMenu">
+                <li><a href="index.html" class="navbar-link">Home</a></li>
+                <li><a href="browse.html" class="navbar-link">Browse</a></li>
+                <li><a href="dashboard.html" class="navbar-link">Dashboard</a></li>
+                <li><a href="chat.html" class="navbar-link active">Messages</a></li>
+                <li>
+                    <div class="theme-switcher">
+                        <button class="theme-btn" id="themeBtn"><span id="themeIcon">🌙</span></button>
+                        <div class="theme-dropdown" id="themeDropdown">
+                            <button class="theme-option" data-theme="light">☀️ Light</button>
+                            <button class="theme-option" data-theme="dark">🌙 Dark</button>
+                            <button class="theme-option active" data-theme="system">💻 System</button>
+                        </div>
+                    </div>
+                </li>
+                <li id="authLinks"><a href="login.html" class="btn btn-primary btn-sm">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="flex-1 p-4 md:p-6 h-[calc(100vh-80px)] flex flex-col justify-center max-w-[1600px] mx-auto w-full">
+
+        <div class="glass-panel w-full h-full rounded-3xl flex overflow-hidden relative">
+
+            <!-- Sidebar -->
+            <div id="chatSidebar"
+                class="w-full md:w-[380px] glass-sidebar flex flex-col z-20 shrink-0 h-full transition-transform duration-300 absolute md:relative">
+
+                <!-- Sidebar Header -->
+                <div class="p-6 pb-2">
+                    <div class="flex items-center justify-between mb-6">
+                        <h1 class="text-2xl font-bold tracking-tight">Messages</h1>
+                        <button onclick="openNewChatModal()"
+                            class="w-10 h-10 rounded-full bg-primary-500/10 hover:bg-primary-500/20 text-primary-500 flex items-center justify-center transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 4v16m8-8H4" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Search -->
+                    <div class="relative group">
+                        <input type="text" id="conversationSearch" placeholder="Search conversations..."
+                            class="w-full bg-white/5 dark:bg-black/20 border border-white/10 dark:border-white/5 rounded-xl px-10 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-all placeholder-gray-500">
+                        <svg class="absolute left-3.5 top-3.5 w-4 h-4 text-gray-500" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Conversation List -->
+                <div id="conversationList" class="flex-1 overflow-y-auto custom-scroll p-4 space-y-1">
+                    <!-- Conversations injected via JS -->
+                </div>
+            </div>
+
+            <!-- Main Chat Area -->
+            <div id="chatMain" class="flex-1 flex flex-col relative bg-transparent w-full h-full hidden md:flex">
+
+                <!-- Chat Header -->
+                <div
+                    class="h-20 px-6 flex items-center justify-between border-b border-white/5 bg-white/5 dark:bg-black/10 backdrop-blur-md z-10 shrink-0">
+                    <div class="flex items-center gap-4">
+                        <button onclick="showSidebarMobile()"
+                            class="md:hidden p-2 -ml-2 text-gray-400 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+
+                        <div id="chatHeaderAvatar"
+                            class="w-10 h-10 rounded-xl bg-gray-700 flex items-center justify-center text-lg font-bold">
+                            ?</div>
+
+                        <div>
+                            <h2 id="chatHeaderName" class="font-bold text-lg leading-tight">Select a Chat</h2>
+                            <div id="chatHeaderStatus"
+                                class="text-xs font-medium text-gray-500 flex items-center gap-2">Offline</div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <!-- Messages Area -->
+                <div id="messagesArea" class="flex-1 overflow-y-auto px-6 py-8 space-y-6 custom-scroll">
+                    <!-- Messages injected via JS -->
+                </div>
+
+                <!-- Input Area -->
+                <div class="p-6 shrink-0 relative">
+                    <div id="emojiPickerContainer" class="absolute bottom-24 left-6 z-50 hidden drop-shadow-2xl">
+                        <emoji-picker class="light"></emoji-picker>
+                    </div>
+
+                    <div
+                        class="w-full bg-white/5 dark:bg-black/20 border border-white/10 rounded-2xl p-2 flex items-end gap-2 backdrop-blur-sm transition-all focus-within:ring-2 focus-within:ring-primary-500/50">
+                        <input type="file" id="fileInput" hidden accept="image/*">
+
+                        <button id="attachmentBtn"
+                            class="p-3 text-gray-400 hover:text-primary-400 transition-colors rounded-xl hover:bg-white/5">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                            </svg>
+                        </button>
+
+                        <button id="emojiBtn"
+                            class="p-3 text-gray-400 hover:text-yellow-400 transition-colors rounded-xl hover:bg-white/5">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </button>
+
+                        <textarea id="messageInput" rows="1" placeholder="Type a message..."
+                            class="flex-1 bg-transparent border-none focus:ring-0 text-inherit placeholder-gray-500 py-3 max-h-32 resize-none custom-scroll leading-relaxed"></textarea>
+
+                        <button id="sendBtn"
+                            class="p-3 bg-primary-600 hover:bg-primary-500 text-white rounded-xl shadow-lg shadow-primary-500/30 transition-all hover:scale-105 active:scale-95">
+                            <svg class="w-5 h-5 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Empty State Overlay -->
+                <div id="emptyState"
+                    class="absolute inset-0 z-30 flex flex-col items-center justify-center bg-white/5 dark:bg-[#0f172a]/80 backdrop-blur-sm">
+                    <div
+                        class="w-24 h-24 bg-primary-500/10 rounded-3xl flex items-center justify-center text-primary-500 mb-6 animate-float">
+                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Your Messages</h3>
+                    <p class="text-gray-500">Pick a conversation to start chatting.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Calls Modal -->
+
+
+    <!-- New Chat Modal -->
+    <div id="newChatModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeNewChatModal()">
+        </div>
+        <div
+            class="relative w-full max-w-md bg-[#1e293b] dark:bg-[#0f172a] rounded-3xl shadow-2xl border border-white/10 overflow-hidden transform transition-all scale-100">
+            <div class="p-6 border-b border-white/10 flex items-center justify-between">
+                <h3 class="text-xl font-bold text-white">New Message</h3>
+                <button onclick="closeNewChatModal()"
+                    class="p-2 hover:bg-white/10 rounded-full text-gray-400 hover:text-white transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="p-6">
+                <div class="relative">
+                    <input type="text" id="userSearchInput" placeholder="Search businesses..."
+                        class="w-full p-4 pl-12 rounded-xl bg-white/5 border border-white/10 focus:ring-2 focus:ring-primary-500 text-white placeholder-gray-500 transition-all"
+                        oninput="debounceSearchUsers(this.value)">
+                    <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+                <div id="userSearchResults" class="mt-4 max-h-60 overflow-y-auto custom-scroll space-y-2"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/loader.js"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/UIManager.js"></script>
+    <script src="js/ChatManager.js"></script>
+    <script src="js/chat.js"></script>
+</body>
+
+</html>

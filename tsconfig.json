@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "ESNext",
+        "lib": [
+            "ESNext",
+            "DOM"
+        ],
+        "moduleResolution": "node",
+        "strict": true,
+        "baseUrl": ".",
+        "paths": {
+            "deno": [
+                "./supabase/functions/deno.d.ts"
+            ]
+        },
+        "types": []
+    },
+    "include": [
+        "js/**/*.js",
+        "supabase/functions/**/*.ts",
+        "supabase/functions/deno.d.ts"
+    ]
+}
