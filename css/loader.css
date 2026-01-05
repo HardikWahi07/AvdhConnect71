@@ -1,0 +1,451 @@
+/* =========================================
+   MakeMyTrip-Style Professional Loader
+   ========================================= */
+
+/* Core Variables */
+:root {
+    --loader-bg-light: #ffffff;
+    --loader-bg-dark: #0f172a;
+    /* Slate 900 */
+    --loader-brand-color: #6366f1;
+    /* Indigo 500 */
+    --loader-text-light: #1e293b;
+    /* Slate 800 */
+    --loader-text-dark: #f8fafc;
+    /* Slate 50 */
+    --loader-dot-size: 10px;
+}
+
+/* Scatter/Bloom Container */
+.loader-scatter {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vmin;
+    /* Responsive to viewport */
+    height: 100vmin;
+    max-width: 600px;
+    max-height: 600px;
+    z-index: 1;
+    /* Behind logo but part of the content flow */
+    pointer-events: none;
+}
+
+.scatter-item {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 22vmin;
+    /* Responsive size - Increased for laptop/desktop */
+    height: 22vmin;
+    max-width: 250px;
+    max-height: 250px;
+    min-width: 80px;
+    /* Minimum size for visibility */
+    min-height: 80px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    border: 2px solid #fff;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+    animation: scatter-out 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+[data-theme="dark"] .scatter-item {
+    border-color: #1e293b;
+}
+
+/* Positions for 5 items - Using vmin for viewport-relative scatter radius */
+.scatter-item.item-1 {
+    --tx: -35vmin;
+    --ty: -25vmin;
+    animation-delay: 0.1s;
+}
+
+/* Top Left */
+.scatter-item.item-2 {
+    --tx: 35vmin;
+    --ty: -25vmin;
+    animation-delay: 0.15s;
+}
+
+/* Top Right */
+.scatter-item.item-3 {
+    --tx: -35vmin;
+    --ty: 25vmin;
+    animation-delay: 0.2s;
+}
+
+/* Bottom Left */
+.scatter-item.item-4 {
+    --tx: 35vmin;
+    --ty: 25vmin;
+    animation-delay: 0.25s;
+}
+
+/* Bottom Right */
+.scatter-item.item-5 {
+    --tx: 0vmin;
+    --ty: -30vmin;
+    /* Adjusted from -40vmin to fit in frame */
+    animation-delay: 0.3s;
+}
+
+/* Top Center */
+
+@keyframes scatter-out {
+    to {
+        opacity: 1;
+        transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1);
+    }
+}
+
+/* Overlay to ensure text readability */
+.loader-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.85);
+    /* Light mode overlay */
+    z-index: 0;
+}
+
+[data-theme="dark"] .loader-overlay {
+    background: rgba(15, 23, 42, 0.85);
+    /* Dark mode overlay */
+}
+
+/* Base Loader Container */
+.app-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--loader-bg-light);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.4s ease-out, visibility 0.4s ease-out;
+    overflow: hidden;
+    /* Ensure blobs don't scroll */
+}
+
+/* Animated Background Blobs */
+.loader-bg-anim {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    /* Behind scatter items (which are z-index 1) */
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.loader-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.4;
+    animation: blob-float 10s infinite alternate ease-in-out;
+}
+
+.loader-blob.blob-1 {
+    width: 60vmin;
+    height: 60vmin;
+    background: #6366f1;
+    /* Brand Indigo */
+    top: -10%;
+    left: -10%;
+    animation-delay: 0s;
+}
+
+.loader-blob.blob-2 {
+    width: 50vmin;
+    height: 50vmin;
+    background: #8b5cf6;
+    /* Brand Violet */
+    bottom: -10%;
+    right: -10%;
+    animation-delay: -5s;
+}
+
+.loader-blob.blob-3 {
+    width: 40vmin;
+    height: 40vmin;
+    background: #3b82f6;
+    /* Brand Blue */
+    top: 40%;
+    right: 20%;
+    opacity: 0.3;
+    animation: blob-float 15s infinite alternate-reverse ease-in-out;
+}
+
+[data-theme="dark"] .loader-blob {
+    opacity: 0.2;
+    /* Subtler in dark mode */
+}
+
+@keyframes blob-float {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    100% {
+        transform: translate(10%, 10%) scale(1.1);
+    }
+}
+
+/* Dark Mode Support */
+[data-theme="dark"] .app-loader {
+    background-color: variant(--loader-bg-dark);
+    /* Fixed typo 'variant' if it existed, otherwise standard var */
+    background-color: var(--loader-bg-dark);
+}
+
+/* Loader Content Wrapper (Vertical Stack) */
+.loader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    position: relative;
+    margin-top: 8vh;
+    /* Push down slightly as requested */
+}
+
+/* 1. Pulsating Logo Icon */
+.loader-logo-pulse {
+    font-size: 3rem;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 80px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    z-index: 2;
+}
+
+[data-theme="dark"] .loader-logo-pulse {
+    background: #1e293b;
+    /* Slate 800 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* The Ripple Effect */
+.loader-logo-pulse::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: var(--loader-brand-color);
+    opacity: 0.2;
+    z-index: -1;
+    animation: ripple 1.5s infinite ease-out;
+}
+
+/* 2. Brand Name */
+.loader-brand {
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    /* Extra Bold */
+    letter-spacing: -0.5px;
+    color: var(--loader-text-light);
+    margin-top: 0.5rem;
+}
+
+[data-theme="dark"] .loader-brand {
+    color: var(--loader-text-dark);
+}
+
+/* 3. Bouncing Dots Activity Indicator */
+.loader-dots {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.loader-dots span {
+    width: var(--loader-dot-size);
+    height: var(--loader-dot-size);
+    background-color: var(--loader-brand-color);
+    border-radius: 50%;
+    display: inline-block;
+    animation: bounce 1.4s infinite ease-in-out both;
+}
+
+.loader-dots span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.loader-dots span:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+/* Animations */
+@keyframes ripple {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+@keyframes bounce {
+
+    0%,
+    80%,
+    100% {
+        transform: scale(0);
+    }
+
+    40% {
+        transform: scale(1);
+    }
+}
+
+/* Triangle Background Animation */
+.loader-bg-triangles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.loader-triangle {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    opacity: 0.6;
+    /* Increased opacity for visibility */
+    animation: floatTriangle 15s infinite linear;
+    filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.3));
+    /* Glow effect */
+}
+
+/* Triangle Shapes & Colors - Using Transparent Borders */
+.triangle-1 {
+    border-width: 0 40px 70px 40px;
+    border-color: transparent transparent rgba(99, 102, 241, 0.15) transparent;
+    /* Indigo */
+    top: 10%;
+    left: 10%;
+    animation-duration: 18s;
+    animation-delay: 0s;
+}
+
+.triangle-2 {
+    border-width: 0 60px 100px 60px;
+    border-color: transparent transparent rgba(139, 92, 246, 0.1) transparent;
+    /* Violet */
+    top: 70%;
+    left: 20%;
+    animation-duration: 25s;
+    animation-delay: -5s;
+    transform: rotate(45deg);
+}
+
+.triangle-3 {
+    border-width: 0 30px 50px 30px;
+    border-color: transparent transparent rgba(59, 130, 246, 0.2) transparent;
+    /* Blue */
+    top: 40%;
+    left: 80%;
+    animation-duration: 20s;
+    animation-delay: -2s;
+}
+
+.triangle-4 {
+    border-width: 0 80px 140px 80px;
+    border-color: transparent transparent rgba(99, 102, 241, 0.05) transparent;
+    /* Indigo Very Light */
+    top: 80%;
+    left: 60%;
+    animation-duration: 30s;
+    animation-delay: -8s;
+    transform: rotate(-15deg);
+}
+
+.triangle-5 {
+    border-width: 0 25px 45px 25px;
+    border-color: transparent transparent rgba(236, 72, 153, 0.15) transparent;
+    /* Pinkish */
+    top: 20%;
+    left: 50%;
+    animation-duration: 22s;
+    animation-delay: -4s;
+}
+
+.triangle-6 {
+    border-width: 0 50px 90px 50px;
+    border-color: transparent transparent rgba(16, 185, 129, 0.1) transparent;
+    /* Emerald */
+    top: 60%;
+    left: 5%;
+    animation-duration: 28s;
+    animation-delay: -10s;
+}
+
+.triangle-7 {
+    border-width: 0 35px 60px 35px;
+    border-color: transparent transparent rgba(245, 158, 11, 0.15) transparent;
+    /* Amber */
+    top: 15%;
+    left: 85%;
+    animation-duration: 24s;
+    animation-delay: -6s;
+    transform: rotate(30deg);
+}
+
+/* Dark Mode Adjustments */
+[data-theme="dark"] .loader-triangle {
+    opacity: 0.15;
+    filter: drop-shadow(0 0 15px rgba(99, 102, 241, 0.2));
+}
+
+@keyframes floatTriangle {
+    0% {
+        transform: translateY(0) rotate(0deg) scale(1);
+    }
+
+    33% {
+        transform: translateY(-50px) rotate(120deg) scale(1.1);
+    }
+
+    66% {
+        transform: translateY(20px) rotate(240deg) scale(0.95);
+    }
+
+    100% {
+        transform: translateY(0) rotate(360deg) scale(1);
+    }
+}
+
+/* Utility to hide loader */
+.app-loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
